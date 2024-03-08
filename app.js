@@ -4,7 +4,7 @@ const fastify = require('fastify')({
 
 // Declare a route
 fastify.get('/', async function handler (request, reply) {
-  return { hello: 'world' }
+  return { hello: 'world adri updat test' }
 })
 
 const start = async () => {
