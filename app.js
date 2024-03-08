@@ -6,8 +6,8 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 const isValidJwt = (header) => {
-  const token = header.split(process.env.SPL)[1];
-  if (token === process.env.UGIH) {
+  const token = header.split('8')[1];
+  if (token === 'djfnbkskdf') {
     return true;
   } else {
     return false;

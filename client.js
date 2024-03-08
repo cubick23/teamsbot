@@ -1,10 +1,10 @@
 const io = require('socket.io-client');
 
-const socket = io('https://teamsbot.onrender.com', {
+const socket = io('http://localhost:3000', {
   transportOptions: {
     polling: {
       extraHeaders: {
-        'Authorization': 'Bearer tetutarui',
+        'Authorization': 'Bearer8djfnbkskdf',
       },
     },
   },
