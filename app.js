@@ -1,29 +1,50 @@
-const fastify = require('fastify')({
-  logger: true
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+const isValidJwt = (header) => {
+  const token = header.split(process.env.SPL)[1];
+  if (token === process.env.UGIH) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+app.get('/api/teams', (req, res) => {
+    res.json({ username: 'test' })
 });
 
-// Declare a route
-fastify.get('/', async function handler (request, reply) {
-  console.log("test");
-  return { hello: 'world adri updat test' }
-})
 
-
-fastify.get('/posts/:id?', function (request, reply) {
-  const { id } = request.params;
-  console.log(id + " response from api");
-  return {response: id + " response form api"};
-})
-
-const start = async () => {
-  // Run the server!
-  try {
-    await fastify.listen({ port: 3000, host: '0.0.0.0' })
-  } catch (err) {
-    fastify.log.error(err)
-    process.exit(1)
+io.use((socket, next) => {
+  const header = socket.handshake.headers['authorization'];
+  if (isValidJwt(header)) {
+    return next();
   }
-}
+  return next(new Error('authentication error'));
+});
 
-start();
+io.on('connection', (socket) => {
+  
+  socket.on('room', room => {
+    console.log(room);
+    socket.join(room);
+  });
 
+});
+
+setInterval(() => {
+  io.sockets.to('room1').emit('message', 'what is going on, party people?');
+}, 3000);
+
+setInterval(() => {
+  io.sockets.to('room2').emit('message', 'anyone in this room yet?');
+}, 3000);
+
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+  });
