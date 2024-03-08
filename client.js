@@ -1,6 +1,7 @@
 const io = require('socket.io-client');
 
-var socket = io('http://localhost:3000', {
+var socket = io('https://teamsbot.onrender.com/', {
+  //transports: ['websocket'],
   transportOptions: {
     polling: {
       extraHeaders: {
@@ -14,6 +15,10 @@ socket.on('connect', () => {
     console.log('connected!');
     //socket.emit('room', 'channel1');
 });
+
+socket.on("connect_error", (err) => {
+    console.log(`connect_error due to ${err.message}`);
+  });
   
 socket.on('message', data => {
     console.log(data);
