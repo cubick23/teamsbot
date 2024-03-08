@@ -1,16 +1,24 @@
-const server = require('http').createServer();
-const io = require('socket.io')(server);
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 const isValidJwt = (header) => {
   const token = header.split(' ')[1];
-  if (token === 'abc') {
+  if (token === 'tetutarui') {
     return true;
   } else {
     return false;
   }
 };
 
-// io.of('/test');
+app.get('/', (req, res) => {
+    res.json({ username: 'test' })
+});
+
+
 io.use((socket, next) => {
   const header = socket.handshake.headers['authorization'];
   console.log(header);
@@ -35,4 +43,7 @@ setInterval(() => {
   io.sockets.to('room2').emit('message', 'anyone in this room yet?');
 }, 3000);
 
-server.listen(3000);
+
+server.listen(3000, () => {
+    console.log('listening on *:3000');
+  });
