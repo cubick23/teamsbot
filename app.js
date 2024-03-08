@@ -4,7 +4,15 @@ const fastify = require('fastify')({
 
 // Declare a route
 fastify.get('/', async function handler (request, reply) {
+  console.log("test");
   return { hello: 'world adri updat test' }
+})
+
+
+fastify.get('/posts/:id?', function (request, reply) {
+  const { id } = request.params;
+  console.log(id + " response from api");
+  return {response: id + " response form api"};
 })
 
 const start = async () => {
