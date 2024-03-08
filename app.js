@@ -8,6 +8,18 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+app.get('/', (req, res) => {
+  res.json({ hello: 'world' })
+});
+
+app.post('/api/teams', (req, res) => {
+  console.log(req.body)
+  //TODO do validations
+  io.emit('teams_message',req.body);
+  res.json({ result: 'ok' })
+});
+
+
 const isValidJwt = (header) => {
   const token = header.split('8')[1];
   if (token === 'djfnbkskdf') {
@@ -36,14 +48,5 @@ server.listen(3000, () => {
     console.log('listening on *:3000');
 });
 
-app.get('/', async (req, res) => {
-  res.json({ hello: 'world' })
-});
 
 
-app.post('/api/teams', async (req, res) => {
-  console.log(req.body)
-  //TODO do validations
-  io.emit('teams_message',req.body);
-  res.json({ result: 'ok' })
-});
