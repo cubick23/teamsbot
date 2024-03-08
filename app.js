@@ -14,7 +14,7 @@ fastify.get('/', async function handler (request, reply) {
 const start = async () => {
   // Run the server!
   try {
-    await fastify.listen({ port: 4001 })
+    await fastify.listen({ port: 8080 })
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
